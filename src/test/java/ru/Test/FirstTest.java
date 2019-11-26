@@ -14,6 +14,7 @@ public class FirstTest extends WebDriverSettings {
     driver.findElement(By.name("password")).sendKeys("admin");
     driver.findElement(By.name("login")).click();
     wait.until(titleIs("My Store"));
+
   }
 }
 
