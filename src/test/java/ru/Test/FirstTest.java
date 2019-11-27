@@ -1,13 +1,14 @@
 package ru.Test;
 
-import org.junit.Assert;
+
 import org.junit.Test;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
-import java.util.List;
+import java.util.NoSuchElementException;
 
-import static org.openqa.selenium.support.ui.ExpectedConditions.titleIs;
+
 
 public class FirstTest extends WebDriverSettings {
   @Test
@@ -16,23 +17,60 @@ public class FirstTest extends WebDriverSettings {
     driver.findElement(By.name("username")).sendKeys("admin");
     driver.findElement(By.name("password")).sendKeys("admin");
     driver.findElement(By.name("login")).click();
-    wait.until(titleIs("My Store"));
 
-    //WebElement finder = driver.findElementByCssSelector("ul#box-apps-menu");
+    int numberOfListElements =  driver.findElements(By.cssSelector("ul#box-apps-menu li#app-")).size();
+    int docN;
+    String namePage;
 
-    List<WebElement> elements = driver.findElements(By.cssSelector("#box-apps-menu a"));
-
-    int numberOfListElements = elements.size();
-    System.out.println(numberOfListElements);
-    for (int i = 0; i < numberOfListElements; i++) {
-      elements = driver.findElements(By.xpath("//a[contains(@href, '?app=')]"));
-      Thread.sleep(1000);
-      elements.get(i).click();
+    WebElement row, lk;
+    for (int i=1; i<=numberOfListElements; i++)  {
+      lk = refreshPage(driver, i);
+      namePage = lk.findElement(By.xpath(".//span[@class='name']")).getText();
+      lk.click();
+      lk = refreshPage(driver, i);
+      docN = lk.findElements(By.xpath("./ul[@class='docs']/li[@id]")).size();
+      if (docN > 0) {
+        for (int j=1; j<=docN; j++) {
+          lk = refreshPage(driver, i);
+          row = lk.findElement(By.xpath("./ul[@class='docs']/li[@id][" + j + "]"));
+          namePage = row.findElement(By.xpath(".//span[@class='name']")).getText();
+          row.click();
+          checkH1(driver, namePage);
+          Thread.sleep(250);
+        }
+      }
+      else {
+        checkH1(driver, namePage);
+      }
+      Thread.sleep(500);
     }
-
   }
-  public void secondTest(){
 
+  private void checkH1(WebDriver web, String pageName){
+    String h1;
+    String result = "Страница" + pageName;
+    if ( isElementPresent(web, By.xpath(".//td[@id='content']/h1")) ) {
+      h1 = web.findElement(By.xpath(".//td[@id='content']/h1")).getText();
+      result = result + " is " + h1;
+    }
+    else
+      result = result + " not";
+    System.out.println(result);
+  }
+
+  private WebElement refreshPage(WebDriver web, int i){
+    WebElement row = web.findElement(By.id("box-apps-menu"));
+    WebElement link = row.findElement(By.xpath("./li[@id='app-'][" + i + "]"));
+    return link;
+  }
+
+  boolean isElementPresent(WebDriver driver, By locator) {
+    try {
+      driver.findElement(locator);
+      return true;
+    } catch (NoSuchElementException ex) {
+      return false;
+    }
   }
 }
 

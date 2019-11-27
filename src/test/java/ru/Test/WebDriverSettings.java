@@ -2,15 +2,11 @@ package ru.Test;
 
 import org.junit.After;
 import org.junit.Before;
-import org.openqa.selenium.By;
-import org.openqa.selenium.HasCapabilities;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
-import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import java.util.concurrent.TimeUnit;
 
@@ -18,6 +14,7 @@ import java.util.concurrent.TimeUnit;
 public class WebDriverSettings {
   public static ChromeDriver driver;
   public static WebDriverWait wait;
+  public static WebElement item;
   //public InternetExplorerDriver driver;
   //public FirefoxDriver driver;
 
@@ -31,15 +28,13 @@ public class WebDriverSettings {
       return;
   }
     driver = new ChromeDriver();
-    driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-    wait = new WebDriverWait(driver,20);
+    driver.manage().timeouts().implicitlyWait(2, TimeUnit.SECONDS);
+    wait = new WebDriverWait(driver,2);
     driver.manage().window().maximize();
-
-
     Runtime.getRuntime().addShutdownHook(new Thread(() -> {driver.quit();driver = null;}));
   }
 
-  @After
+    @After
   public void closeTest() {
   //  driver.quit();
   //  driver = null;
