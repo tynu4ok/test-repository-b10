@@ -5,7 +5,7 @@ import org.openqa.selenium.By;
 
 public class SecondTest extends WebDriverSettings{
     @Test
-    public void mainTest()  {
+    public void secondTest()  {
 
       driver.get("http://localhost/litecart/en/");
 
