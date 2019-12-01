@@ -17,7 +17,7 @@ public class SecondTest extends WebDriverSettings {
 
         for (int i = 0; i < list.size(); i++) {
             WebElement item = list.get(i);
-            System.out.println("Проверяем элемент№ " + i);
+            System.out.println("Проверяем элемент № " + i);
             if (!(item.findElements(By.cssSelector("div[class='sticker sale']")).size() > 0 || item.findElements(By.cssSelector("div[class='sticker new']")).size() > 0)) {
                 AssertionError assertError = new AssertionError();
                 System.out.println("Ошибка, стикеров более одного или вообще его нет, номер элемента - " + i + " ." + assertError.getMessage());
