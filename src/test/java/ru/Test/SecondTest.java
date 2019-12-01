@@ -1,37 +1,29 @@
 package ru.Test;
 
+import org.junit.Assert;
 import org.junit.Test;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 
-public class SecondTest extends WebDriverSettings{
+import java.util.List;
+
+public class SecondTest extends WebDriverSettings {
     @Test
-    public void secondTest()  {
+    public void secondTest() {
 
-      driver.get("http://localhost/litecart/en/");
+        driver.get("http://localhost/litecart/en/");
 
-      String[] boxType = {"box-most-popular", "box-campaigns", "box-latest-products"};
-      String location, name, stickerName;
-      int itemsCount, stickerCount;
+        List<WebElement> list = driver.findElements(By.cssSelector("li.product"));
 
-      for (String box : boxType) {
-        System.out.println(box);
-        location = ".//div[@class='middle']//div[@id='" + box + "']//li[@class]";
-        itemsCount = driver.findElements(By.xpath(location)).size();
-        if (itemsCount > 0) {
-          for (int i = 1; i <= itemsCount; i++) {
-            item = driver.findElement(By.xpath(location + "[" + i + "]"));
-            stickerCount = item.findElements(By.xpath(".//div[@class='image-wrapper']/div[@title]")).size();
-            name = item.findElement(By.xpath(".//div[@class='name']")).getText();
-            if (stickerCount == 1) {
-              stickerName = item.findElement(By.xpath(".//div[@title]")).getText();
-              System.out.println("Имя - " + name + " Стикер - " + stickerName);
+        for (int i = 0; i < list.size(); i++) {
+            WebElement item = list.get(i);
+            System.out.println("Проверяем элемент№ " + i);
+            if (!(item.findElements(By.cssSelector("div[class='sticker sale']")).size() > 0 || item.findElements(By.cssSelector("div[class='sticker new']")).size() > 0)) {
+                AssertionError assertError = new AssertionError();
+                System.out.println("Ошибка, стикеров более одного или вообще его нет, номер элемента - " + i + " ." + assertError.getMessage());
+                Assert.fail();
             }
-            else if (stickerCount > 1)
-              System.out.println("Ошибка - " + name + " похоже более одного стикера!");
-            else
-              System.out.println("Ошибка ? " + name + " нет стикера");
-          }
         }
-      }
+        System.out.println("Всё нормально, у всех есть стикеры.");
     }
 }
