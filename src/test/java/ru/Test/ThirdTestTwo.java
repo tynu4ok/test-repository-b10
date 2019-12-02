@@ -17,10 +17,14 @@ public class ThirdTestTwo extends WebDriverSettings {
         WebElement oldPriceMain = campaignsMainName.findElement(By.cssSelector("s"));
         String oldPrice = oldPriceMain.getAttribute("textContent");
         String oldPriceClass = oldPriceMain.getAttribute("class");
+        String oldPriceMainDecor = oldPriceMain.getCssValue("text-decoration");
+        String oldPriceMainColor = oldPriceMain.getCssValue("color");
+        String oldPriceMainSize = oldPriceMain.getCssValue("font-size");
 
         WebElement newPriceMain = campaignsMainName.findElement(By.cssSelector("strong"));
         String newPrice = newPriceMain.getAttribute("textContent");
         String newPriceClass = newPriceMain.getAttribute("class");
+        String newPriceMainSize = newPriceMain.getCssValue("font-size");
 
         campaignsMainName.click();
 
@@ -32,10 +36,14 @@ public class ThirdTestTwo extends WebDriverSettings {
         WebElement oldPriceProduct = boxProduct.findElement(By.cssSelector("s"));
         String oldPriceProd = oldPriceProduct.getAttribute("textContent");
         String oldPriceClassProduct = oldPriceProduct.getAttribute("class");
+        String oldPriceProductDecor = oldPriceProduct.getCssValue("text-decoration");
+        String oldPriceProductColor = oldPriceProduct.getCssValue("color");
+        String oldPriceProductSize = oldPriceProduct.getCssValue("font-size");
 
         WebElement newPriceProduct = boxProduct.findElement(By.cssSelector("strong.campaign-price"));
         String newPriceProd = newPriceProduct.getAttribute("textContent");
         String newPriceClassProduct = newPriceProduct.getAttribute("class");
+        String newPriceProductSize = newPriceProduct.getCssValue("font-size");
 
 
         if (!(mName.equals(nameProduct)) ) {
@@ -44,7 +52,7 @@ public class ThirdTestTwo extends WebDriverSettings {
             System.out.println("Название с главной страницы ("+ mName +") отличается от названия с открытой в новой вкладке страницы ("+nameProduct+")" );
             Assert.fail();
         }
-        System.out.println("Название с главной страницы ("+ mName +") не отличается от названия со страницы открытой ("+nameProduct+")" );
+        System.out.println("Название с главной страницы ("+ mName +") не отличается от названия со страницы карточки товара ("+nameProduct+")" );
 
         if (!(oldPrice.equals(oldPriceProd)) ) {
             AssertionError assertError = new AssertionError();
@@ -77,5 +85,27 @@ public class ThirdTestTwo extends WebDriverSettings {
             Assert.fail();
         }
         System.out.println("Класс новой цены на главной странице ("+ newPriceClass +") аналогичен классу в карточке товара ("+newPriceClassProduct+")" );
+
+
+        System.out.println("Старая цена на главной странице(text decoration): " + oldPriceMainDecor);
+        System.out.println("Старая цена в карточке товара(text decoration): " + oldPriceProductDecor);
+
+        System.out.println("Старая цена в карточке товара(color): " + oldPriceMainColor);
+        System.out.println("Старая цена в карточке товара(color): " + oldPriceProductColor);
+
+
+        String result1;
+        if (newPriceMainSize.compareTo(oldPriceMainSize) > 0)
+            result1 = "больше";
+        else
+            result1 = "меньше";
+        System.out.println("Акционная цена на главной странице " + result1 + " чем старая цена.");
+
+        String result2;
+        if (newPriceProductSize.compareTo(oldPriceProductSize) > 0)
+            result2 = "больше";
+        else
+            result2 = "меньше";
+        System.out.println("Акционная цена в карточке товара " + result2 + " чем старая цена.");
     }
 }

@@ -14,7 +14,7 @@ import java.util.concurrent.TimeUnit;
 public class WebDriverSettings {
   public static ChromeDriver driver;
   public static WebDriverWait wait;
-  public static WebElement item;
+
   //public InternetExplorerDriver driver;
   //public FirefoxDriver driver;
 
