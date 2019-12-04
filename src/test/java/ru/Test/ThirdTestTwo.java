@@ -4,6 +4,7 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.Color;
 
 public class ThirdTestTwo extends WebDriverSettings {
     @Test
@@ -25,6 +26,7 @@ public class ThirdTestTwo extends WebDriverSettings {
         String newPrice = newPriceMain.getAttribute("textContent");
         String newPriceClass = newPriceMain.getAttribute("class");
         String newPriceMainSize = newPriceMain.getCssValue("font-size");
+        String newPriceMainColor = newPriceMain.getCssValue("color");
 
         campaignsMainName.click();
 
@@ -44,6 +46,7 @@ public class ThirdTestTwo extends WebDriverSettings {
         String newPriceProd = newPriceProduct.getAttribute("textContent");
         String newPriceClassProduct = newPriceProduct.getAttribute("class");
         String newPriceProductSize = newPriceProduct.getCssValue("font-size");
+        String newPriceProductColor = newPriceProduct.getCssValue("color");
 
 
         if (!(mName.equals(nameProduct)) ) {
@@ -93,7 +96,6 @@ public class ThirdTestTwo extends WebDriverSettings {
         System.out.println("Старая цена в карточке товара(color): " + oldPriceMainColor);
         System.out.println("Старая цена в карточке товара(color): " + oldPriceProductColor);
 
-
         String result1;
         if (newPriceMainSize.compareTo(oldPriceMainSize) > 0)
             result1 = "больше";
@@ -107,5 +109,77 @@ public class ThirdTestTwo extends WebDriverSettings {
         else
             result2 = "меньше";
         System.out.println("Акционная цена в карточке товара " + result2 + " чем старая цена.");
+
+        // ########################################################################################## Вариант №1 Сделал только для Варианта ответа на в)
+        String hexMain = Color.fromString(oldPriceMainColor).asHex();
+        String oldPriceMainColorHex = "#777777"; // Hex представление RGB - 119, 119, 119
+        if(!(hexMain.equals(oldPriceMainColorHex))){
+            AssertionError assertError = new AssertionError();
+            System.out.println("Ошибка: " + assertError.getMessage());
+            System.out.println("Цвет серой цены не корректен." );
+            Assert.fail();
+        }
+        System.out.println("Цвет серой цены на главной странице правильный !");
+
+        String hexProduct = Color.fromString(oldPriceProductColor).asHex();
+        String oldPriceProductColorHex = "#666666"; // Hex представление RGB - 102, 102, 102
+        if(!(hexProduct.equals(oldPriceProductColorHex))){
+            AssertionError assertError = new AssertionError();
+            System.out.println("Ошибка: " + assertError.getMessage());
+            System.out.println("Цвет серой цены не корректен." );
+            Assert.fail();
+        }
+        System.out.println("Цвет серой цены в карточке товара правильный !");
+
+
+        // ########################################################################################## Вариант №2 Сделал на вариант ответа в) и г)
+        String[] numbersMain = oldPriceMainColor.replace("rgba(", "").replace(")", "").split(",");
+        int a = Integer.parseInt(numbersMain[0].trim());
+        int b = Integer.parseInt(numbersMain[1].trim());
+        int c = Integer.parseInt(numbersMain[2].trim());
+        if(!( (a == b) && (a == c) )){
+            AssertionError assertError = new AssertionError();
+            System.out.println("Ошибка: " + assertError.getMessage());
+            System.out.println("Цвет на главной странице не серый." );
+            Assert.fail();
+        }
+        System.out.println("Red: " + a + " Green: " + b + " Blue: " + c + " - Одинаковы !");
+
+        String[] numbersProd = oldPriceProductColor.replace("rgba(", "").replace(")", "").split(",");
+        int d = Integer.parseInt(numbersProd[0].trim());
+        int e = Integer.parseInt(numbersProd[1].trim());
+        int f = Integer.parseInt(numbersProd[2].trim());
+        if(!( (d == e) && (d == f) )){
+            AssertionError assertError = new AssertionError();
+            System.out.println("Ошибка: " + assertError.getMessage());
+            System.out.println("Цвет в карточке товара не серый." );
+            Assert.fail();
+        }
+        System.out.println("Red: " + d + " Green: " + e + " Blue: " + f + " - Одинаковы !");
+        
+        String[] numbersMainRed = newPriceMainColor.replace("rgba(", "").replace(")", "").split(",");
+        int b2 = Integer.parseInt(numbersMainRed[1].trim());
+        int c3 = Integer.parseInt(numbersMainRed[2].trim());
+        if(!((b2 == 0) && (c3 == 0))){
+            AssertionError assertError = new AssertionError();
+            System.out.println("Ошибка: " + assertError.getMessage());
+            System.out.println("Цвет на главной странице не красный." );
+            Assert.fail();
+        }
+        System.out.println("Green: " + b2 + " Blue: " + c3 + " - Одинаковы!");
+
+        String[] numbersProdRed = newPriceProductColor.replace("rgba(", "").replace(")", "").split(",");
+        int e2 = Integer.parseInt(numbersProdRed[1].trim());
+        int f3 = Integer.parseInt(numbersProdRed[2].trim());
+        if(!((e2 == 0) && (f3 == 0) )){
+            AssertionError assertError = new AssertionError();
+            System.out.println("Ошибка: " + assertError.getMessage());
+            System.out.println("Цвет в карточке товара не красный." );
+            Assert.fail();
+        }
+        System.out.println("Green: " + e2 + " Blue: " + f3 + " - Одинаковы !");
+
+
+
     }
 }
