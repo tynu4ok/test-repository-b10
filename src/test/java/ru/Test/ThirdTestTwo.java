@@ -89,7 +89,6 @@ public class ThirdTestTwo extends WebDriverSettings {
         }
         System.out.println("Класс новой цены на главной странице ("+ newPriceClass +") аналогичен классу в карточке товара ("+newPriceClassProduct+")" );
 
-
         System.out.println("Старая цена на главной странице(text decoration): " + oldPriceMainDecor);
         System.out.println("Старая цена в карточке товара(text decoration): " + oldPriceProductDecor);
 
@@ -131,7 +130,6 @@ public class ThirdTestTwo extends WebDriverSettings {
         }
         System.out.println("Цвет серой цены в карточке товара правильный !");
 
-
         // ########################################################################################## Вариант №2 Сделал на вариант ответа в) и г)
         String[] numbersMain = oldPriceMainColor.replace("rgba(", "").replace(")", "").split(",");
         int a = Integer.parseInt(numbersMain[0].trim());
@@ -156,7 +154,7 @@ public class ThirdTestTwo extends WebDriverSettings {
             Assert.fail();
         }
         System.out.println("Red: " + d + " Green: " + e + " Blue: " + f + " - Одинаковы !");
-        
+
         String[] numbersMainRed = newPriceMainColor.replace("rgba(", "").replace(")", "").split(",");
         int b2 = Integer.parseInt(numbersMainRed[1].trim());
         int c3 = Integer.parseInt(numbersMainRed[2].trim());
@@ -178,8 +176,5 @@ public class ThirdTestTwo extends WebDriverSettings {
             Assert.fail();
         }
         System.out.println("Green: " + e2 + " Blue: " + f3 + " - Одинаковы !");
-
-
-
     }
 }
