@@ -11,15 +11,14 @@ public class SecondTest extends WebDriverSettings {
     @Test
     public void secondTest() {
         driver.get("http://localhost/litecart/en/");
-
+        AssertionError assertError = new AssertionError();
         List<WebElement> list = driver.findElements(By.cssSelector("li.product"));
 
         for (int i = 0; i < list.size(); i++) {
             WebElement item = list.get(i);
             System.out.println("Проверяем элемент № " + (i + 1));
             // Если более одного класса sticker, выбрасываем ошибку
-            if (item.findElements(By.cssSelector("div.sticker")).size() >= 2 ) {
-                AssertionError assertError = new AssertionError();
+            if (!(item.findElements(By.cssSelector("div.sticker")).size() == 1 )) {
                 System.out.println("Ошибка, стикеров более одного или вообще его нет, номер элемента - " + (i + 1) + " ." + assertError.getMessage());
                 Assert.fail();
             }
