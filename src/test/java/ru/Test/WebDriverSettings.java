@@ -28,8 +28,8 @@ public class WebDriverSettings {
       return;
   }
     driver = new ChromeDriver();
-    driver.manage().timeouts().implicitlyWait(2, TimeUnit.SECONDS);
-    wait = new WebDriverWait(driver,2);
+    driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+    wait = new WebDriverWait(driver,10);
     driver.manage().window().maximize();
     Runtime.getRuntime().addShutdownHook(new Thread(() -> {driver.quit();driver = null;}));
   }
